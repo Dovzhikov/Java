@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="GameFifteen">
+    <output-path>$PROJECT_DIR$/out/artifacts/GameFifteen</output-path>
+    <root id="archive" name="GameFifteen.jar">
+      <element id="module-output" name="fifteen" />
+    </root>
+  </artifact>
+</component>
