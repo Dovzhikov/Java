@@ -9,8 +9,8 @@ final public class Main {
     JFrame frame;
     DrawPanel drawPanel;
 
-    private int x = 125;
-    private int y = 330;
+    private int x = 125; // 125
+    private int y = 330; // 330
 
     public static void main(String args[]) {
         new Main().go();
@@ -31,7 +31,7 @@ final public class Main {
     class DrawPanel extends JPanel {
         public void paintComponent(Graphics g) {
             g.drawString("This is my Planetary Model!", 70, 30);
-            g.drawOval(120, 150, 700, 700);
+            g.drawOval(140, 140, 850, 850); // орбита
             g.setColor(Color.BLUE);
             g.fillOval(x, y, 50, 50); // planet
             g.setColor(Color.YELLOW);
@@ -41,17 +41,15 @@ final public class Main {
 
 
     private void move() {
-        double r = 200;
-        double a = 0, delta = 0;
+        double r = 395;
+        double a = 0, delta = 0.001;
         while (true) {
-            x = (int) (r * Math.sin(a));
-            y = (int) (r * Math.cos(a));
-            x++;
-            y++;
+            x = (int) (r * Math.sin(a)) + 520;
+            y = (int) (r * Math.cos(a)) + 520;
             a += delta;
-            a = a > 2 * Math.PI ? 0 : a;
+            //a = a > 2 * Math.PI ? 0 : a;
             try {
-                Thread.sleep(10);
+                Thread.sleep(1);
             } catch (Exception exception) {
             }
             frame.repaint();
