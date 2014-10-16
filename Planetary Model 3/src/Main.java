@@ -1,13 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
+import java.util.Timer;
 
 /**
  * Created by konstantindovzikov on 15.10.14.
  */
 final public class Main {
 
-    JFrame frame;
-    DrawPanel drawPanel;
+    private JFrame frame;
+    private DrawPanel drawPanel;
+    private java.util.Timer timer;
+
 
     private int x = 125; // 125
     private int y = 330; // 330
@@ -25,7 +29,18 @@ final public class Main {
         frame.setResizable(false);
         frame.setSize(700, 700);
         frame.setLocation(375, 55);
-        move();
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                int x = (int) (r * Math.sin(a)) + 100;
+                y = (int) (r * Math.cos(a)) + 100;
+                a += delta;
+                System.out.println(String.format("x = %d; y = %d", x, y));
+                frame.repaint();
+                //a = a > 2 * Math.PI ? 0 : a;
+            }
+        }, 14, 14);
     }
 
     class DrawPanel extends JPanel {
@@ -39,20 +54,6 @@ final public class Main {
         }
     }
 
-
-    private void move() {
-        double r = 395;
-        double a = 0, delta = 0.001;
-        while (true) {
-            x = (int) (r * Math.sin(a)) + 520;
-            y = (int) (r * Math.cos(a)) + 520;
-            a += delta;
-            //a = a > 2 * Math.PI ? 0 : a;
-            try {
-                Thread.sleep(1);
-            } catch (Exception exception) {
-            }
-            frame.repaint();
-        }
-    }
+    double r = 395;
+    double a = 0, delta = 0.005;
 }
