@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,13 +9,9 @@ import java.util.TimerTask;
  */
 public class PlanetaryModel {
 
-    //private int x, y;
     private JFrame frame;
     private java.util.Timer timer;
-    private double r = 225, a = 0, delta = 0.03;
-    private double arrr[] = new double[10];
-    private int arrx[] = new int[10];
-    private int arry[] = new int[10];
+    Planet planet[] = new Planet[9];
 
     public static void main(String args[]) {
         new PlanetaryModel().start();
@@ -31,21 +28,20 @@ public class PlanetaryModel {
         frame.getContentPane().add(BorderLayout.CENTER, draw);
         frame.setVisible(true);
         timer = new Timer();
+        Random random = new Random();
+        int step = 0;
+        for (int i = 0; i < planet.length; i++) {
+            planet[i] = new Planet(120 + step, 1 + (i - 3), 0.003 * random.nextDouble());
+            step += 55;
+        }
 
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                int step = 0;
-                for (int i = 0; i < 10; i++) {
-                    arrr[i] = 120 + step;
-                    arrx[i] = (int) (arrr[i] * Math.sin(a)) + 560 - 25;
-                    arry[i] = (int) (arrr[i] * Math.cos(a)) + 400 - 25;
-                    step += 55;
+                for (int i = 0; i < planet.length; i++) {
+                    planet[i].movePlanet();
+                    frame.repaint();
                 }
-                a += delta;
-                a = a > 2 * Math.PI ? 0 : a;
-                //System.out.println(String.format("x = %d; y = %d", x, y));
-                frame.repaint();
             }
         }, 14, 14);
     }
@@ -55,19 +51,15 @@ public class PlanetaryModel {
 
         public void paintComponent(Graphics g) {
             g.drawString("This is my Planetary model", 70, 30);
-//            g.drawOval(585, 425, 200, 200);
-//            g.drawOval(522, 362, 325, 325);
-//            g.drawOval(460, 300, 450, 450);
             int stepx = 0, stepy = 0, stepr = 125;
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 9; i++) {
                 stepr += 110;
                 stepx = 560 - stepr / 2;
                 stepy = 400 - stepr / 2;
                 g.drawOval(stepx, stepy, stepr, stepr);
             }
-
-            for (int i = 0; i < 10; i++) {
-                g.drawOval(arrx[i], arry[i], 50, 50);
+            for (int i = 0; i < planet.length; i++) {
+                g.drawOval(planet[i].x, planet[i].y, 50, 50);
             }
         }
     }
