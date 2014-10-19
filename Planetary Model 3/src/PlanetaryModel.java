@@ -9,9 +9,12 @@ import java.util.TimerTask;
  */
 public class PlanetaryModel {
 
+    private final int num = 9;
+
     private JFrame frame;
     private java.util.Timer timer;
-    Planet planet[] = new Planet[9];
+    Planet planet[] = new Planet[num];
+    Orbit orbit[] = new Orbit[num];
 
     public static void main(String args[]) {
         new PlanetaryModel().start();
@@ -30,8 +33,10 @@ public class PlanetaryModel {
         timer = new Timer();
         Random random = new Random();
         int step = 0;
+
+
         for (int i = 0; i < planet.length; i++) {
-            planet[i] = new Planet(120 + step, 1 + (i - 3), 0.003 * random.nextDouble());
+            planet[i] = new Planet(120 + step, 1 + (i - 3), 0.003 * random.nextDouble(), 50);
             step += 55;
         }
 
@@ -49,17 +54,18 @@ public class PlanetaryModel {
     class DrawPanel extends JPanel {
         PlanetaryModel planetaryModel = new PlanetaryModel();
 
+
         public void paintComponent(Graphics g) {
             g.drawString("This is my Planetary model", 70, 30);
-            int stepx = 0, stepy = 0, stepr = 125;
-            for (int i = 0; i < 9; i++) {
+            int stepr = 250;
+            for (int i = 0; i < orbit.length; i++) {
+                orbit[i] = new Orbit(stepr);
+                g.drawOval(orbit[i].getstepx(), orbit[i].getstepy(), stepr, stepr);
                 stepr += 110;
-                stepx = 560 - stepr / 2;
-                stepy = 400 - stepr / 2;
-                g.drawOval(stepx, stepy, stepr, stepr);
             }
+
             for (int i = 0; i < planet.length; i++) {
-                g.drawOval(planet[i].x, planet[i].y, 50, 50);
+                g.drawOval(planet[i].x, planet[i].y, planet[i].size, planet[i].size);
             }
         }
     }
